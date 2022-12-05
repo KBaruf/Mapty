@@ -83,6 +83,9 @@ class App {
     // Get data from local storage
     this._getLocalStorage();
 
+    // reset local storage after 10 minutes
+    this.resetLocalStorage();
+
     // Attach event handlers
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
@@ -164,9 +167,6 @@ class App {
 
       // Check if data is valid
       if (
-        // !Number.isFinite(distance) ||
-        // !Number.isFinite(duration) ||
-        // !Number.isFinite(cadence)
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
       )
@@ -312,9 +312,17 @@ class App {
     });
   }
 
+  // Use to reset local storage
   reset() {
     localStorage.removeItem('workouts');
     location.reload();
+  }
+
+  resetLocalStorage() {
+    setTimeout(function () {
+      localStorage.removeItem('workouts');
+      location.reload();
+    }, 600 * 1000);
   }
 }
 
